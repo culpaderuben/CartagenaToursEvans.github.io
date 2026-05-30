@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cartagena Unlocked — Discover the Golden City</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #C9973A;
+    --gold-light: #E8C97A;
+    --deep: #0D1B2A;
+    --deep2: #132236;
+    --teal: #1A7F74;
+    --teal-light: #2DB5A8;
+    --sand: #F5EDD8;
+    --sand2: #EDE0C4;
+    --coral: #D4614E;
+    --white: #FDFAF4;
+    --text-muted: #8A7B6A;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--deep);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 20px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(13,27,42,0.95), transparent);
+    transition: background 0.4s;
+  }
+  nav.scrolled { background: rgba(13,27,42,0.98); }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 600; color: var(--gold);
+    letter-spacing: 2px; text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a { color: var(--sand); text-decoration: none; font-size: 13px; font-weight: 300; letter-spacing: 1.5px; text-transform: uppercase; transition: color 0.3s; }
+  .nav-links a:hover { color: var(--gold-light); }
+  .nav-cta {
+    background: var(--gold); color: var(--deep); border: none;
+    padding: 10px 28px; font-family: 'DM Sans', sans-serif;
+    font-size: 12px; font-weight: 500; letter-spacing: 1.5px;
+    text-transform: uppercase; cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    background: var(--deep);
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 60% 40%, rgba(26,127,116,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 20% 80%, rgba(201,151,58,0.12) 0%, transparent 50%),
+      radial-gradient(ellipse 40% 40% at 85% 15%, rgba(212,97,78,0.1) 0%, transparent 50%);
+  }
+  .hero-pattern {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image: repeating-linear-gradient(45deg, var(--gold) 0, var(--gold) 1px, transparent 0, transparent 50%);
+    background-size: 30px 30px;
+  }
+  .hero-content {
+    position: relative; z-index: 2; text-align: center;
+    max-width: 900px; padding: 0 40px;
+  }
+  .hero-badge {
+    display: inline-block; border: 1px solid rgba(201,151,58,0.4);
+    color: var(--gold-light); font-size: 11px; font-weight: 400;
+    letter-spacing: 3px; text-transform: uppercase;
+    padding: 6px 20px; margin-bottom: 28px;
+    animation: fadeInDown 0.8s ease both;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 8vw, 96px); font-weight: 300;
+    line-height: 1.0; letter-spacing: -1px;
+    color: var(--white);
+    animation: fadeInUp 0.9s ease 0.1s both;
+  }
+  .hero-title span { color: var(--gold); font-style: italic; }
+  .hero-subtitle {
+    font-size: 15px; font-weight: 300; color: var(--sand2);
+    letter-spacing: 0.5px; line-height: 1.8;
+    max-width: 520px; margin: 24px auto 44px;
+    animation: fadeInUp 0.9s ease 0.2s both;
+  }
+  .hero-btns {
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+    animation: fadeInUp 0.9s ease 0.3s both;
+  }
+  .btn-primary {
+    background: var(--gold); color: var(--deep);
+    padding: 14px 40px; border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 12px;
+    font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+    transition: all 0.3s; text-decoration: none; display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: var(--sand);
+    padding: 14px 40px; border: 1px solid rgba(245,237,216,0.3);
+    cursor: pointer; font-family: 'DM Sans', sans-serif;
+    font-size: 12px; font-weight: 400; letter-spacing: 2px;
+    text-transform: uppercase; transition: all 0.3s; text-decoration: none; display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold-light); transform: translateY(-2px); }
+
+  .hero-scroll {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: var(--text-muted); font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    animation: fadeIn 1.2s ease 0.6s both;
+  }
+  .scroll-line {
+    width: 1px; height: 50px; background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease infinite;
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    background: var(--deep2); border-top: 1px solid rgba(201,151,58,0.2);
+    border-bottom: 1px solid rgba(201,151,58,0.2);
+    padding: 30px 60px;
+    display: flex; justify-content: center; gap: 80px; flex-wrap: wrap;
+  }
+  .stat-item { text-align: center; }
+  .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: var(--gold); }
+  .stat-label { font-size: 11px; font-weight: 300; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+
+  /* SECTION TITLES */
+  .section { padding: 100px 60px; }
+  .section-header { text-align: center; margin-bottom: 70px; }
+  .section-tag {
+    font-size: 10px; font-weight: 400; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--teal-light); margin-bottom: 14px; display: block;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4vw, 52px); font-weight: 300;
+    line-height: 1.15; color: var(--white);
+  }
+  .section-title em { color: var(--gold); font-style: italic; }
+  .section-line {
+    width: 60px; height: 1px; background: var(--gold);
+    margin: 20px auto 0;
+  }
+
+  /* TOURS GRID */
+  .tours-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2px; max-width: 1300px; margin: 0 auto;
+  }
+  .tour-card {
+    position: relative; overflow: hidden;
+    aspect-ratio: 3/4; cursor: pointer;
+    background: var(--deep2);
+  }
+  .tour-card.featured { grid-column: span 2; aspect-ratio: 16/9; }
+  .tour-img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.7s ease;
+  }
+  .tour-card-bg {
+    position: absolute; inset: 0;
+    transition: transform 0.7s ease;
+  }
+  .tour-card:hover .tour-card-bg { transform: scale(1.05); }
+  .tour-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(13,27,42,0.95) 0%, rgba(13,27,42,0.3) 50%, transparent 100%);
+    transition: opacity 0.4s;
+  }
+  .tour-card:hover .tour-overlay { opacity: 0.85; }
+  .tour-info {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 28px 24px; transform: translateY(0); transition: transform 0.4s;
+  }
+  .tour-category {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--teal-light); margin-bottom: 8px; display: block;
+  }
+  .tour-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px; font-weight: 400; color: var(--white);
+    line-height: 1.2; margin-bottom: 8px;
+  }
+  .tour-card.featured .tour-name { font-size: 34px; }
+  .tour-meta {
+    display: flex; align-items: center; gap: 16px;
+    font-size: 12px; font-weight: 300; color: var(--sand2);
+    margin-bottom: 16px;
+  }
+  .tour-meta span { display: flex; align-items: center; gap: 5px; }
+  .tour-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; color: var(--gold); font-weight: 300;
+  }
+  .tour-price sup { font-size: 13px; vertical-align: top; margin-top: 4px; }
+  .tour-btn {
+    display: inline-block; margin-top: 14px;
+    background: var(--gold); color: var(--deep);
+    padding: 8px 22px; font-size: 11px; font-weight: 500;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    opacity: 0; transform: translateY(8px);
+    transition: opacity 0.3s, transform 0.3s;
+    border: none; cursor: pointer; font-family: 'DM Sans', sans-serif;
+  }
+  .tour-card:hover .tour-btn { opacity: 1; transform: translateY(0); }
+
+  /* Colored backgrounds for tour cards (CSS art) */
+  .bg-walled { background: linear-gradient(135deg, #1a3a4a 0%, #0d4a3a 40%, #1a2a1a 100%); }
+  .bg-islands { background: linear-gradient(135deg, #0a3d5c 0%, #1a6875 40%, #0d4a3a 100%); }
+  .bg-castle { background: linear-gradient(135deg, #3d2a0a 0%, #5c3d10 40%, #2a1a0a 100%); }
+  .bg-old { background: linear-gradient(135deg, #2a0a0a 0%, #5c2010 50%, #3d1a0a 100%); }
+  .bg-rosario { background: linear-gradient(135deg, #0a2a3d 0%, #104060 50%, #0a1a2a 100%); }
+  .bg-food { background: linear-gradient(135deg, #3d1a0a 0%, #5c2a10 50%, #2a100a 100%); }
+
+  /* SVG illustration overlays */
+  .card-illustration { position: absolute; inset: 0; opacity: 0.15; }
+
+  /* EXPERIENCES */
+  .experiences { background: var(--deep2); }
+  .exp-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; max-width: 1200px; margin: 0 auto;
+  }
+  .exp-item {
+    padding: 48px 36px; border: 1px solid rgba(201,151,58,0.1);
+    transition: background 0.3s, border-color 0.3s;
+    cursor: default;
+  }
+  .exp-item:hover { background: rgba(201,151,58,0.05); border-color: rgba(201,151,58,0.3); }
+  .exp-icon {
+    width: 52px; height: 52px; margin-bottom: 20px;
+    border: 1px solid rgba(201,151,58,0.3);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold); font-size: 22px;
+  }
+  .exp-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 400; color: var(--white);
+    margin-bottom: 12px;
+  }
+  .exp-desc { font-size: 13px; font-weight: 300; color: var(--text-muted); line-height: 1.8; }
+
+  /* TESTIMONIALS */
+  .testimonials { background: var(--deep); }
+  .reviews-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 24px; max-width: 1100px; margin: 0 auto;
+  }
+  .review-card {
+    border: 1px solid rgba(201,151,58,0.15);
+    padding: 32px 28px;
+    position: relative;
+  }
+  .review-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 60px; font-weight: 300; color: var(--gold);
+    opacity: 0.3; position: absolute; top: 12px; left: 24px;
+    line-height: 1;
+  }
+  .review-text {
+    font-size: 13px; font-weight: 300; color: var(--sand2);
+    line-height: 1.9; font-style: italic; margin-bottom: 20px;
+    padding-top: 24px;
+  }
+  .review-author { font-size: 12px; font-weight: 500; color: var(--gold-light); letter-spacing: 1px; }
+  .review-loc { font-size: 11px; font-weight: 300; color: var(--text-muted); margin-top: 2px; }
+  .stars { color: var(--gold); font-size: 11px; margin-bottom: 12px; letter-spacing: 2px; }
+
+  /* CTA */
+  .cta-section {
+    background: var(--deep2);
+    padding: 100px 60px;
+    text-align: center;
+    border-top: 1px solid rgba(201,151,58,0.15);
+  }
+  .cta-section .section-title { margin-bottom: 18px; }
+  .cta-section p { font-size: 15px; font-weight: 300; color: var(--sand2); margin-bottom: 40px; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+  /* FOOTER */
+  footer {
+    background: #070E16; padding: 60px 60px 30px;
+    border-top: 1px solid rgba(201,151,58,0.1);
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px; margin-bottom: 50px;
+  }
+  .footer-brand .nav-logo { display: block; margin-bottom: 16px; font-size: 20px; }
+  .footer-brand p { font-size: 13px; font-weight: 300; color: var(--text-muted); line-height: 1.8; }
+  .footer-col h4 {
+    font-size: 10px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 20px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 10px; }
+  .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 13px; font-weight: 300; transition: color 0.3s; }
+  .footer-col a:hover { color: var(--gold-light); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 24px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .footer-bottom p { font-size: 11px; font-weight: 300; color: var(--text-muted); }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(7,14,22,0.92);
+    align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: var(--deep2); max-width: 600px; width: 100%;
+    border: 1px solid rgba(201,151,58,0.2); padding: 48px;
+    position: relative; max-height: 85vh; overflow-y: auto;
+  }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    background: none; border: none; color: var(--text-muted);
+    font-size: 22px; cursor: pointer; transition: color 0.3s;
+  }
+  .modal-close:hover { color: var(--gold); }
+  .modal-tag { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--teal-light); margin-bottom: 10px; display: block; }
+  .modal-title { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: var(--white); margin-bottom: 6px; }
+  .modal-price { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--gold); margin-bottom: 24px; }
+  .modal-section { margin-bottom: 22px; }
+  .modal-section h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-light); margin-bottom: 10px; }
+  .modal-section p, .modal-section li { font-size: 14px; font-weight: 300; color: var(--sand2); line-height: 1.8; }
+  .modal-section ul { list-style: none; }
+  .modal-section li::before { content: "✦ "; color: var(--gold); font-size: 10px; }
+  .modal-book-btn {
+    width: 100%; background: var(--gold); color: var(--deep);
+    padding: 16px; border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+    margin-top: 28px; transition: background 0.3s;
+  }
+  .modal-book-btn:hover { background: var(--gold-light); }
+
+  /* BOOKING FORM */
+  .booking-section {
+    background: var(--deep); padding: 100px 60px;
+    border-top: 1px solid rgba(201,151,58,0.1);
+  }
+  .booking-form { max-width: 800px; margin: 0 auto; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-group label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-light); }
+  .form-group input, .form-group select {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(201,151,58,0.2);
+    color: var(--white); padding: 14px 16px; font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 300; outline: none;
+    transition: border-color 0.3s;
+  }
+  .form-group input:focus, .form-group select:focus { border-color: var(--gold); }
+  .form-group select option { background: var(--deep2); color: var(--white); }
+  .form-submit {
+    width: 100%; background: var(--gold); color: var(--deep);
+    padding: 18px; border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+    transition: all 0.3s; margin-top: 8px;
+  }
+  .form-submit:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  /* ANIMATIONS */
+  @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes scrollPulse { 0%,100% { opacity: 0.4; transform: scaleY(1); } 50% { opacity: 1; transform: scaleY(1.1); } }
+
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .section { padding: 70px 24px; }
+    .stats-bar { padding: 24px; gap: 40px; }
+    .exp-grid { grid-template-columns: 1fr; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    .tour-card.featured { grid-column: span 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">CARTAGENA UNLOCKED</a>
+  <ul class="nav-links">
+    <li><a href="#tours">Tours</a></li>
+    <li><a href="#experiences">Experiences</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#booking">Book Now</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Reserve a Tour</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Colombia's Jewel of the Caribbean</div>
+    <h1 class="hero-title">Where History<br>Meets the <span>Sea</span></h1>
+    <p class="hero-subtitle">Step inside a living museum — walled fortresses, coral islands, and colonial streets painted in gold. Cartagena de Indias, one UNESCO World Heritage site at a time.</p>
+    <div class="hero-btns">
+      <a href="#tours" class="btn-primary">Explore Tours</a>
+      <a href="#booking" class="btn-outline">Plan My Visit</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num">4,500+</div>
+    <div class="stat-label">Happy travelers</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">18</div>
+    <div class="stat-label">Curated tours</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">9.7</div>
+    <div class="stat-label">Average rating</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">1533</div>
+    <div class="stat-label">Founded in</div>
+  </div>
+</div>
+
+<!-- TOURS -->
+<section class="section" id="tours">
+  <div class="section-header reveal">
+    <span class="section-tag">Our Collection</span>
+    <h2 class="section-title">Iconic <em>Destinations</em> & Experiences</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="tours-grid">
+
+    <!-- Featured -->
+    <div class="tour-card featured" onclick="openModal('walled')">
+      <div class="tour-card-bg bg-walled" style="position:absolute;inset:0;">
+        <svg width="100%" height="100%" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice" class="card-illustration" xmlns="http://www.w3.org/2000/svg">
+          <!-- city wall silhouette -->
+          <rect x="0" y="300" width="800" height="150" fill="#C9973A"/>
+          <rect x="50" y="250" width="80" height="50" fill="#C9973A"/>
+          <rect x="60" y="230" width="20" height="30" fill="#C9973A"/>
+          <rect x="90" y="230" width="20" height="30" fill="#C9973A"/>
+          <rect x="200" y="240" width="100" height="60" fill="#C9973A"/>
+          <rect x="210" y="220" width="25" height="30" fill="#C9973A"/>
+          <rect x="245" y="220" width="25" height="30" fill="#C9973A"/>
+          <rect x="270" y="220" width="25" height="30" fill="#C9973A"/>
+          <rect x="400" y="200" width="150" height="100" fill="#C9973A"/>
+          <rect x="415" y="175" width="30" height="35" fill="#C9973A"/>
+          <rect x="455" y="175" width="30" height="35" fill="#C9973A"/>
+          <rect x="495" y="175" width="30" height="35" fill="#C9973A"/>
+          <circle cx="475" cy="160" r="30" fill="none" stroke="#C9973A" stroke-width="3"/>
+          <rect x="600" y="260" width="120" height="40" fill="#C9973A"/>
+          <polygon points="400,80 440,130 360,130" fill="#C9973A" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="tour-overlay"></div>
+      <div class="tour-info">
+        <span class="tour-category">★ Most Popular</span>
+        <div class="tour-name">Las Murallas — The Ancient City Walls</div>
+        <div class="tour-meta">
+          <span>⏱ 3 hours</span>
+          <span>👥 Up to 12</span>
+          <span>🌤 Daily departures</span>
+        </div>
+        <div class="tour-price"><sup>$</sup>45 <small style="font-size:13px;color:#8A7B6A;">/ person</small></div>
+        <button class="tour-btn">View Details</button>
+      </div>
+    </div>
+
+    <div class="tour-card" onclick="openModal('islands')">
+      <div class="tour-card-bg bg-islands" style="position:absolute;inset:0;">
+        <svg width="100%" height="100%" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice" class="card-illustration" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="150" cy="320" rx="120" ry="30" fill="#1A7F74"/>
+          <path d="M100,300 Q150,200 200,300" fill="#1A7F74"/>
+          <path d="M140,260 Q155,180 170,260" fill="#C9973A"/>
+          <ellipse cx="155" cy="180" rx="35" ry="20" fill="#1A7F74"/>
+          <path d="M50,350 Q150,280 250,350" fill="none" stroke="#2DB5A8" stroke-width="8"/>
+        </svg>
+      </div>
+      <div class="tour-overlay"></div>
+      <div class="tour-info">
+        <span class="tour-category">Island Escape</span>
+        <div class="tour-name">Islas del Rosario</div>
+        <div class="tour-meta"><span>⏱ Full day</span><span>🚤 Boat tour</span></div>
+        <div class="tour-price"><sup>$</sup>85 <small style="font-size:13px;color:#8A7B6A;">/ person</small></div>
+        <button class="tour-btn">View Details</button>
+      </div>
+    </div>
+
+    <div class="tour-card" onclick="openModal('castle')">
+      <div class="tour-card-bg bg-castle" style="position:absolute;inset:0;">
+        <svg width="100%" height="100%" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice" class="card-illustration" xmlns="http://www.w3.org/2000/svg">
+          <rect x="80" y="250" width="140" height="150" fill="#C9973A"/>
+          <rect x="70" y="230" width="30" height="40" fill="#C9973A"/>
+          <rect x="200" y="230" width="30" height="40" fill="#C9973A"/>
+          <rect x="115" y="200" width="70" height="70" fill="#C9973A"/>
+          <rect x="130" y="170" width="18" height="30" fill="#C9973A"/>
+          <rect x="152" y="170" width="18" height="30" fill="#C9973A"/>
+          <circle cx="150" cy="150" r="25" fill="none" stroke="#C9973A" stroke-width="4"/>
+        </svg>
+      </div>
+      <div class="tour-overlay"></div>
+      <div class="tour-info">
+        <span class="tour-category">History</span>
+        <div class="tour-name">Castillo San Felipe de Barajas</div>
+        <div class="tour-meta"><span>⏱ 2 hours</span><span>🏰 UNESCO</span></div>
+        <div class="tour-price"><sup>$</sup>38 <small style="font-size:13px;color:#8A7B6A;">/ person</small></div>
+        <button class="tour-btn">View Details</button>
+      </div>
+    </div>
+
+    <div class="tour-card" onclick="openModal('oldcity')">
+      <div class="tour-card-bg bg-old" style="position:absolute;inset:0;">
+        <svg width="100%" height="100%" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice" class="card-illustration" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="200" width="55" height="200" fill="#C9973A"/>
+          <rect x="100" y="220" width="50" height="180" fill="#C9973A"/>
+          <rect x="165" y="180" width="70" height="220" fill="#C9973A"/>
+          <rect x="250" y="240" width="40" height="160" fill="#C9973A"/>
+          <rect x="40" y="170" width="15" height="40" fill="#C9973A"/>
+          <rect x="60" y="165" width="15" height="45" fill="#C9973A"/>
+          <rect x="175" y="145" width="18" height="45" fill="#C9973A"/>
+          <rect x="200" y="140" width="18" height="50" fill="#C9973A"/>
+        </svg>
+      </div>
+      <div class="tour-overlay"></div>
+      <div class="tour-info">
+        <span class="tour-category">Walking Tour</span>
+        <div class="tour-name">Old City & Getsemaní</div>
+        <div class="tour-meta"><span>⏱ 2.5 hours</span><span>🚶 On foot</span></div>
+        <div class="tour-price"><sup>$</sup>30 <small style="font-size:13px;color:#8A7B6A;">/ person</small></div>
+        <button class="tour-btn">View Details</button>
+      </div>
+    </div>
+
+    <div class="tour-card" onclick="openModal('sunset')">
+      <div class="tour-card-bg" style="position:absolute;inset:0;background:linear-gradient(135deg,#1a2a4a 0%, #3d1a2a 50%,#5c2a0a 100%);">
+        <svg width="100%" height="100%" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice" class="card-illustration" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="150" cy="200" r="70" fill="#C9973A"/>
+          <path d="M0,280 Q75,240 150,260 Q225,280 300,250 L300,400 L0,400Z" fill="#C9973A"/>
+          <path d="M0,300 Q75,260 150,280 Q225,300 300,270 L300,400 L0,400Z" fill="#1A7F74" opacity="0.7"/>
+        </svg>
+      </div>
+      <div class="tour-overlay"></div>
+      <div class="tour-info">
+        <span class="tour-category">Sunset Cruise</span>
+        <div class="tour-name">Caribbean Sunset Sail</div>
+        <div class="tour-meta"><span>⏱ 2 hours</span><span>🌅 Evening</span></div>
+        <div class="tour-price"><sup>$</sup>65 <small style="font-size:13px;color:#8A7B6A;">/ person</small></div>
+        <button class="tour-btn">View Details</button>
+      </div>
+    </div>
+
+    <div class="tour-card" onclick="openModal('food')">
+      <div class="tour-card-bg bg-food" style="position:absolute;inset:0;">
+        <svg width="100%" height="100%" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice" class="card-illustration" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="150" cy="200" r="80" fill="none" stroke="#C9973A" stroke-width="6"/>
+          <circle cx="150" cy="200" r="55" fill="none" stroke="#C9973A" stroke-width="3" stroke-dasharray="10 5"/>
+          <line x1="150" y1="120" x2="150" y2="280" stroke="#C9973A" stroke-width="3"/>
+          <line x1="70" y1="200" x2="230" y2="200" stroke="#C9973A" stroke-width="3"/>
+          <circle cx="150" cy="200" r="12" fill="#C9973A"/>
+        </svg>
+      </div>
+      <div class="tour-overlay"></div>
+      <div class="tour-info">
+        <span class="tour-category">Gastronomy</span>
+        <div class="tour-name">Caribbean Food & Market Tour</div>
+        <div class="tour-meta"><span>⏱ 3 hours</span><span>🍽 Tastings incl.</span></div>
+        <div class="tour-price"><sup>$</sup>55 <small style="font-size:13px;color:#8A7B6A;">/ person</small></div>
+        <button class="tour-btn">View Details</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPERIENCES -->
+<section class="section experiences" id="experiences">
+  <div class="section-header reveal">
+    <span class="section-tag">Why Travel With Us</span>
+    <h2 class="section-title">Crafted for the <em>Curious</em></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="exp-grid">
+    <div class="exp-item reveal">
+      <div class="exp-icon">⚓</div>
+      <div class="exp-title">Expert Local Guides</div>
+      <p class="exp-desc">Born and raised in Cartagena, our guides bring centuries of stories alive with passion, context, and insider access unavailable elsewhere.</p>
+    </div>
+    <div class="exp-item reveal">
+      <div class="exp-icon">🏛</div>
+      <div class="exp-title">UNESCO Heritage Access</div>
+      <p class="exp-desc">Skip the queues and gain priority entry to Cartagena's most emblematic monuments, from the fortified walls to the castle of San Felipe.</p>
+    </div>
+    <div class="exp-item reveal">
+      <div class="exp-icon">🚤</div>
+      <div class="exp-title">Private Island Excursions</div>
+      <p class="exp-desc">Sail the Caribbean aboard our private vessels to the Rosario Islands — crystal waters, coral reefs, and white sand cays await.</p>
+    </div>
+    <div class="exp-item reveal">
+      <div class="exp-icon">🌿</div>
+      <div class="exp-title">Small Group Sizes</div>
+      <p class="exp-desc">No more than 12 guests per tour. Intimate by design, personal by choice — so every guest receives genuine attention.</p>
+    </div>
+    <div class="exp-item reveal">
+      <div class="exp-icon">🍹</div>
+      <div class="exp-title">Gastronomy & Culture</div>
+      <p class="exp-desc">From street arepas to fine costeño cuisine, our food tours introduce you to the soul of Colombia through its flavors and aromas.</p>
+    </div>
+    <div class="exp-item reveal">
+      <div class="exp-icon">📸</div>
+      <div class="exp-title">Photography-First Routes</div>
+      <p class="exp-desc">We plan every tour around the best light, the most painterly streets, and the vistas that make Cartagena one of the world's most photogenic cities.</p>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="section testimonials" id="reviews">
+  <div class="section-header reveal">
+    <span class="section-tag">Traveler Stories</span>
+    <h2 class="section-title">Memories <em>Made Here</em></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card reveal">
+      <div class="review-quote">"</div>
+      <div class="stars">★★★★★</div>
+      <p class="review-text">The walls tour at golden hour was absolutely magical. Our guide Carlos knew every stone, every story. This is the only way to experience Cartagena.</p>
+      <div class="review-author">Sarah Mitchell</div>
+      <div class="review-loc">New York, USA</div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-quote">"</div>
+      <div class="stars">★★★★★</div>
+      <p class="review-text">We did the Rosario Islands trip and it was a dream. Snorkeling in waters so clear you could count the fish. Worth every penny and then some.</p>
+      <div class="review-author">James & Clara Hoffmann</div>
+      <div class="review-loc">Berlin, Germany</div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-quote">"</div>
+      <div class="stars">★★★★★</div>
+      <p class="review-text">The food tour was a revelation. We tried things we never would have found on our own. The Bazurto market visit alone was worth the whole trip.</p>
+      <div class="review-author">Mei-Lin Tran</div>
+      <div class="review-loc">Singapore</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="reveal">
+    <span class="section-tag">Limited Availability</span>
+    <h2 class="section-title">Your <em>Golden City</em> Awaits</h2>
+    <p>Tours fill quickly, especially during peak season. Reserve your spot today and let us craft an unforgettable Cartagena story for you.</p>
+    <a href="#booking" class="btn-primary">Book Your Tour Now</a>
+  </div>
+</section>
+
+<!-- BOOKING FORM -->
+<section class="booking-section" id="booking">
+  <div class="section-header reveal">
+    <span class="section-tag">Reservations</span>
+    <h2 class="section-title">Plan Your <em>Adventure</em></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="booking-form reveal">
+    <div class="form-grid">
+      <div class="form-group">
+        <label>First Name</label>
+        <input type="text" placeholder="Your first name">
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" placeholder="Your last name">
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="you@email.com">
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" placeholder="+1 000 000 0000">
+      </div>
+      <div class="form-group">
+        <label>Select Tour</label>
+        <select>
+          <option value="">Choose your experience</option>
+          <option>Las Murallas — Ancient City Walls ($45)</option>
+          <option>Islas del Rosario — Full Day ($85)</option>
+          <option>Castillo San Felipe de Barajas ($38)</option>
+          <option>Old City & Getsemaní Walking Tour ($30)</option>
+          <option>Caribbean Sunset Sail ($65)</option>
+          <option>Caribbean Food & Market Tour ($55)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Travel Date</label>
+        <input type="date">
+      </div>
+      <div class="form-group">
+        <label>Number of Guests</label>
+        <input type="number" min="1" max="12" placeholder="1–12 guests">
+      </div>
+      <div class="form-group">
+        <label>Special Requests</label>
+        <input type="text" placeholder="Dietary needs, accessibility, etc.">
+      </div>
+    </div>
+    <button class="form-submit" onclick="handleBooking(event)">Send Reservation Request</button>
+    <p style="text-align:center;font-size:12px;font-weight:300;color:var(--text-muted);margin-top:16px;">We'll confirm your booking within 24 hours via email · No payment required at this stage</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo">CARTAGENA UNLOCKED</a>
+      <p>Authentic travel experiences in Cartagena de Indias, Colombia's UNESCO World Heritage jewel on the Caribbean coast.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Tours</h4>
+      <ul>
+        <li><a href="#">City Walls Tour</a></li>
+        <li><a href="#">Rosario Islands</a></li>
+        <li><a href="#">San Felipe Castle</a></li>
+        <li><a href="#">Sunset Cruise</a></li>
+        <li><a href="#">Food Tour</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Our Guides</a></li>
+        <li><a href="#">Sustainability</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#">info@cartagenaunlocked.com</a></li>
+        <li><a href="#">+57 300 000 0000</a></li>
+        <li><a href="#">WhatsApp</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">TripAdvisor</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Cartagena Unlocked. All rights reserved.</p>
+    <p>Privacy Policy · Terms & Conditions · Cookie Policy</p>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal" id="modal-content">
+    <button class="modal-close" onclick="document.getElementById('modal').classList.remove('active')">✕</button>
+    <span class="modal-tag" id="m-tag"></span>
+    <div class="modal-title" id="m-title"></div>
+    <div class="modal-price" id="m-price"></div>
+    <div class="modal-section">
+      <h4>About This Tour</h4>
+      <p id="m-desc"></p>
+    </div>
+    <div class="modal-section">
+      <h4>What's Included</h4>
+      <ul id="m-includes"></ul>
+    </div>
+    <div class="modal-section">
+      <h4>Details</h4>
+      <ul id="m-details"></ul>
+    </div>
+    <button class="modal-book-btn" onclick="document.getElementById('modal').classList.remove('active');document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Reserve This Tour ↓</button>
+  </div>
+</div>
+
+<script>
+const tours = {
+  walled: {
+    tag: "★ Most Popular · Heritage Walk",
+    title: "Las Murallas — The Ancient City Walls",
+    price: "From $45 / person",
+    desc: "Walk the legendary 13km fortified walls that ring Cartagena's historic center — a feat of Spanish colonial engineering completed in the 17th century. As the sun dips toward the Caribbean, your expert guide reveals tales of pirate sieges, viceroys, and the people who called this fortress city home.",
+    includes: ["Expert bilingual guide","Entrance to key viewpoints","Welcome cocktail at sunset","Small group (max 12)","Hotel pickup available"],
+    details: ["Duration: 3 hours","Departs: Daily at 4:30 PM","Meeting point: Torre del Reloj","Physical level: Easy (mostly flat)","Price: $45 per person"]
+  },
+  islands: {
+    tag: "Island Escape · Full Day",
+    title: "Islas del Rosario — Caribbean Archipelago",
+    price: "From $85 / person",
+    desc: "Sail 45 minutes off the coast to the Rosario Islands — a stunning archipelago of 27 coral islands set in the crystalline Caribbean Sea. Snorkel over reefs, relax on white sand beaches, and feast on freshly caught seafood at a local palapa. The most beautiful day you'll spend in Colombia.",
+    includes: ["Private speedboat transfer","Snorkel gear rental","Seafood lunch at beach club","National Park entrance fee","Life jackets & safety equipment"],
+    details: ["Duration: 8 hours (full day)","Departs: Daily at 8:00 AM","Dock: Muelle de los Pegasos","Physical level: Easy","Price: $85 per person"]
+  },
+  castle: {
+    tag: "History · UNESCO Landmark",
+    title: "Castillo San Felipe de Barajas",
+    price: "From $38 / person",
+    desc: "Explore the largest and most formidable fortress ever built by the Spanish in the Americas — and one of the most stunning works of military architecture in the world. Wind through underground tunnels, scale the ramparts, and uncover how this mighty castle repelled every pirate and naval attack for over 200 years.",
+    includes: ["Expert guide","Priority entrance ticket","Tunnel exploration","Panoramic city views","Complimentary audio guide"],
+    details: ["Duration: 2 hours","Departs: Daily at 9:00 AM & 3:00 PM","Meeting point: Castle main gate","Physical level: Moderate (steps)","Price: $38 per person"]
+  },
+  oldcity: {
+    tag: "Walking Tour · Art & Culture",
+    title: "Old City & Getsemaní Neighborhood",
+    price: "From $30 / person",
+    desc: "Wander through Cartagena's two most iconic neighborhoods on foot. In the Old City, marvel at baroque churches, flowering balconies, and cobblestone plazas. Then cross into Getsemaní — once a port for enslaved Africans, today a vibrant creative hub painted with extraordinary murals telling the story of the city's Afro-Colombian heritage.",
+    includes: ["Bilingual guide","Map of murals & street art","Coffee stop at local café","Neighborhood stories & history","Free exploration time"],
+    details: ["Duration: 2.5 hours","Departs: Daily at 9:00 AM","Meeting point: Plaza de los Coches","Physical level: Easy","Price: $30 per person"]
+  },
+  sunset: {
+    tag: "Sunset Cruise · Romantic Experience",
+    title: "Caribbean Sunset Sail",
+    price: "From $65 / person",
+    desc: "Board our elegant wooden schooner as the afternoon light turns the Caribbean gold. Sail along the city walls, past the Castillo, and out into the bay as the sun melts into the sea. Drinks, live vallenato music, and the most breathtaking light you'll ever see — this is Cartagena at its absolute best.",
+    includes: ["2-hour private schooner","Open bar (rum, wine, soft drinks)","Live Colombian music","Sunset views of the walls","Canapes & snacks"],
+    details: ["Duration: 2 hours","Departs: Daily at 5:30 PM","Dock: Muelle de los Pegasos","Physical level: Easy","Price: $65 per person"]
+  },
+  food: {
+    tag: "Gastronomy · Market Tour",
+    title: "Caribbean Food & Market Tour",
+    price: "From $55 / person",
+    desc: "Follow a local foodie guide deep into the flavors of the Caribbean coast. Visit the Bazurto market at dawn, taste arepas de huevo from street vendors, sample fresh ceviche at the clock tower, and finish with a cooking lesson in a colonial courtyard. Includes all tastings.",
+    includes: ["All food tastings included","Bazurto market visit","Street food crawl in Old City","Colombian cooking demonstration","Recipe booklet to take home"],
+    details: ["Duration: 3 hours","Departs: Daily at 8:00 AM","Meeting point: Torre del Reloj","Physical level: Easy","Price: $55 per person"]
+  }
+};
+
+function openModal(id) {
+  const t = tours[id];
+  document.getElementById('m-tag').textContent = t.tag;
+  document.getElementById('m-title').textContent = t.title;
+  document.getElementById('m-price').textContent = t.price;
+  document.getElementById('m-desc').textContent = t.desc;
+  document.getElementById('m-includes').innerHTML = t.includes.map(i=>`<li>${i}</li>`).join('');
+  document.getElementById('m-details').innerHTML = t.details.map(d=>`<li>${d}</li>`).join('');
+  document.getElementById('modal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal')) {
+    document.getElementById('modal').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+document.getElementById('modal').addEventListener('click', closeModal);
+document.querySelector('.modal-close').addEventListener('click', () => {
+  document.getElementById('modal').classList.remove('active');
+  document.body.style.overflow = '';
+});
+
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+function handleBooking(e) {
+  e.target.textContent = '✓ Request Sent! We\'ll be in touch within 24 hours.';
+  e.target.style.background = '#1A7F74';
+  e.target.style.color = '#fff';
+  setTimeout(()=>{
+    e.target.textContent = 'Send Reservation Request';
+    e.target.style.background = '';
+    e.target.style.color = '';
+  }, 4000);
+}
+</script>
+</body>
+</html>
